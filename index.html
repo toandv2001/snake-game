@@ -91,6 +91,7 @@
       <div class="score">Score: <span id="score">0</span></div>
       <canvas id="gameCanvas" width="400" height="400"></canvas>
       <div class="controls">Press any arrow key or WASD to start!</div>
+      <div class="controls">Toàn Dev</div>
     </div>
 
     <div class="game-over" id="gameOver">
@@ -131,25 +132,35 @@
         ctx.fillStyle = "#1a1a2e";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw snake
+        // Draw snake body
         ctx.fillStyle = "#4ecdc4";
-        for (let segment of snake) {
+        for (let i = 1; i < snake.length; i++) {
           ctx.fillRect(
-            segment.x * gridSize,
-            segment.y * gridSize,
+            snake[i].x * gridSize,
+            snake[i].y * gridSize,
             gridSize - 2,
             gridSize - 2
           );
         }
 
-        // Draw snake head with different color
-        ctx.fillStyle = "#45b7aa";
-        ctx.fillRect(
-          snake[0].x * gridSize,
-          snake[0].y * gridSize,
-          gridSize - 2,
-          gridSize - 2
-        );
+        // Draw snake head - always visible with fallback design
+        const head = snake[0];
+        const headX = head.x * gridSize;
+        const headY = head.y * gridSize;
+
+        // Draw a bright colored snake head with eyes
+        ctx.fillStyle = "#ffff00"; // Bright yellow head
+        ctx.fillRect(headX, headY, gridSize - 2, gridSize - 2);
+
+        // Add eyes
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(headX + 3, headY + 3, 4, 4);
+        ctx.fillRect(headX + 11, headY + 3, 4, 4);
+
+        // Add white eye highlights
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(headX + 4, headY + 4, 2, 2);
+        ctx.fillRect(headX + 12, headY + 4, 2, 2);
 
         // Draw food
         ctx.fillStyle = "#ff6b6b";
